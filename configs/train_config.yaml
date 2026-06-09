@@ -1,5 +1,5 @@
 base_model: distilbert-base-uncased
-hf_repo: your-hf-username/sentiment-demo-model
+hf_repo: phaniq1/sentiment-demo-model
 dataset_name: imdb
 max_length: 128
 train_samples: 2000
