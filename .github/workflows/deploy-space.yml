@@ -1,0 +1,47 @@
+name: Deploy Space
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "app/**"
+      - "src/predict.py"
+      - ".github/workflows/deploy-space.yml"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GitHub repo
+        uses: actions/checkout@v4
+
+      - name: Install Hugging Face Hub
+        run: |
+          pip install huggingface_hub
+
+      - name: Prepare Space files
+        run: |
+          mkdir space
+          cp app/app.py space/app.py
+          cp app/requirements.txt space/requirements.txt
+          mkdir -p space/src
+          cp src/predict.py space/src/predict.py
+          touch space/src/__init__.py
+
+      - name: Upload to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python - << 'PY'
+          from huggingface_hub import HfApi
+
+          api = HfApi(token="${{ secrets.HF_TOKEN }}")
+
+          api.upload_folder(
+              folder_path="space",
+              repo_id="phaniq1/sentiment-demo-app",
+              repo_type="space",
+              commit_message="Deploy Space from GitHub Actions"
+          )
+          PY
