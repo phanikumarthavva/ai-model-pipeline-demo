@@ -1,7 +1,7 @@
 import gradio as gr
 from src.predict import load_classifier, predict_sentiment
 
-MODEL_ID = "your-hf-username/sentiment-demo-model"
+MODEL_ID = "phaniq1/sentiment-demo-model"
 
 classifier = load_classifier(MODEL_ID)
 
