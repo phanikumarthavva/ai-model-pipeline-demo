@@ -1,0 +1,9 @@
+transformers
+datasets
+evaluate
+accelerate
+scikit-learn
+torch
+huggingface_hub
+pyyaml
+pytest
